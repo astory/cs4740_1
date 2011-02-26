@@ -11,6 +11,12 @@ eos = ['.', '?', '!']
 valid_line_regex = re.compile('[a-z]')
 whitespace = re.compile('\s+')
 
+def unk(word,words):
+	#I don't know why this isn't working
+	#if word not in words:
+	#	word='<UNK>'
+	return word
+
 def shakespeare(filename):
 	"""Processes input assuming it is shakespeare-like"""
 	words = [SOS]
@@ -25,19 +31,19 @@ def shakespeare(filename):
 					pass
 				elif word[-1] in eos :
 					#end of sentence punctuation
-					words.append(word[0:-1]) #word
+					words.append(unk(word[0:-1],words)) #word
 					words.append(word[-1]) #eos punctuation
 					words.append(SOS) #sos marker
 				elif word[-1] in string.punctuation:
 					#end-of-word mid-sentence punctuation
-					words.append(word[0:-1]) #word
+					words.append(unk(word[0:-1],words)) #word
 					words.append(word[-1]) #punctuation
 				elif word[0] in string.punctuation:
 					#beginning-of-word mid-sentence punctuation
 					words.append(word[-1]) #punctuation
-					words.append(word[0:-1]) #word
+					words.append(unk(word[0:-1],words)) #word
 				else:
-					words.append(word)
+					words.append(unk(word,words))
 		else:
 			if not words[-1] == SOS:
 				words.append(SOS)
