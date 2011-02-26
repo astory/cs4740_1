@@ -46,6 +46,7 @@ def shakespeare(filename):
 					#beginning-of-word mid-sentence punctuation
 					words.append(word[-1]) #punctuation
 					words.append(word[0:-1]) #word
+				#This currently does not handle middle-of-word punctuation like someone else's program would.
 				else:
 					words.append(word)
 		else:
