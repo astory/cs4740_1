@@ -10,13 +10,6 @@ EOS = '.'
 eos = ['.', '?', '!']
 valid_line_regex = re.compile('[a-z]')
 whitespace = re.compile('\s+')
-#Add spaces before or after punctuation
-#??? How do you do
-#echo 'euthasonethu, ousnthoaeu "asoehushanotheus soe '| sed  -e 's/\([a-z]\)\([,"]\)/\1\ \2/' -e 's/\([,"]\)\([a-z]\)/\1\ \2/'
-#in python?
-punct_begin=re.sub('[%s][a-z]' % re.escape(string.punctuation), '', s)
-punct_end=re.sub('[a-z][%s]' % re.escape(string.punctuation), '', s)
-#Running both of these in series will sep ' a ' rate punctuation in the mid'dle of words
 
 def shakespeare(filename):
 	"""Processes input assuming it is shakespeare-like"""
@@ -31,9 +24,18 @@ def shakespeare(filename):
 				if word == '':
 					pass
 				elif word[-1] in eos :
-					word = word[0:-1]
-					words.append(word)
-					words.append(SOS)
+					#end of sentence punctuation
+					words.append(word[0:-1]) #word
+					words.append(word[-1]) #eos punctuation
+					words.append(SOS) #sos marker
+				elif word[-1] in string.punctuation:
+					#end-of-word mid-sentence punctuation
+					words.append(word[0:-1]) #word
+					words.append(word[-1]) #punctuation
+				elif word[0] in string.punctuation:
+					#beginning-of-word mid-sentence punctuation
+					words.append(word[-1]) #punctuation
+					words.append(word[0:-1]) #word
 				else:
 					words.append(word)
 		else:
