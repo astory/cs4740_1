@@ -2,6 +2,24 @@
 from random import normalvariate #Just for generating numbers for testing functions
 from math import log,e
 
+def ngram(n, words):
+	"""Return a list of n (1 .. n)-gram dictionaries, n >= 1, l[0] is {}."""
+	ngrams = [{}]
+	for i in range(1, n+1):
+		d = {}
+		# compute the i-gram model data
+		word_buffer = words[0:i-1]
+		for word in words[i-1:]:
+			word_buffer.append(word)
+			t = tuple(word_buffer)
+			if d.has_key(t):
+				d[t] += 1
+			else:
+				d[t] = 1
+			word_buffer.pop(0)
+		ngrams.append(d)
+	return ngrams
+
 #Assume we already have the counts in some file and that this function gets them
 def C(ngram):
 	#Return the count of a particular n-gram somehow
