@@ -2,6 +2,7 @@
 # well as start-of-sentence symbols.
 
 import re
+import string
 
 SOS = '#'
 EOS = '.'
@@ -23,9 +24,18 @@ def shakespeare(filename):
 				if word == '':
 					pass
 				elif word[-1] in eos :
-					word = word[0:-1]
-					words.append(word)
-					words.append(SOS)
+					#end of sentence punctuation
+					words.append(word[0:-1]) #word
+					words.append(word[-1]) #eos punctuation
+					words.append(SOS) #sos marker
+				elif word[-1] in string.punctuation:
+					#end-of-word mid-sentence punctuation
+					words.append(word[0:-1]) #word
+					words.append(word[-1]) #punctuation
+				elif word[0] in string.punctuation:
+					#beginning-of-word mid-sentence punctuation
+					words.append(word[-1]) #punctuation
+					words.append(word[0:-1]) #word
 				else:
 					words.append(word)
 		else:
