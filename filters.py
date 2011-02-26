@@ -2,6 +2,7 @@
 # well as start-of-sentence symbols.
 
 import re
+import string
 
 SOS = '#'
 EOS = '.'
@@ -9,6 +10,13 @@ EOS = '.'
 eos = ['.', '?', '!']
 valid_line_regex = re.compile('[a-z]')
 whitespace = re.compile('\s+')
+#Add spaces before or after punctuation
+#??? How do you do
+#echo 'euthasonethu, ousnthoaeu "asoehushanotheus soe '| sed  -e 's/\([a-z]\)\([,"]\)/\1\ \2/' -e 's/\([,"]\)\([a-z]\)/\1\ \2/'
+#in python?
+punct_begin=re.sub('[%s][a-z]' % re.escape(string.punctuation), '', s)
+punct_end=re.sub('[a-z][%s]' % re.escape(string.punctuation), '', s)
+#Running both of these in series will sep ' a ' rate punctuation in the mid'dle of words
 
 def shakespeare(filename):
 	"""Processes input assuming it is shakespeare-like"""
