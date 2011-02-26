@@ -6,7 +6,7 @@ import re
 SOS = '#'
 EOS = '.'
 
-speaker_or_empty_regex = re.compile('^[^a-z]*$')
+valid_line_regex = re.compile('[a-z]')
 whitespace = re.compile('\s+')
 
 def shakespeare(filename):
@@ -16,10 +16,7 @@ def shakespeare(filename):
 	for line in f:
 		# if the line is empty, or is just something like "SECOND LORD", the
 		# sentence is over, and we should add a new one.
-		if speaker_or_empty_regex.match(line):
-			if not words[-1] == SOS:
-				words.append(SOS)
-		else:
+		if valid_line_regex.search(line):
 			line_words = whitespace.split(line)
 			for word in line_words:
 				if word == '':
@@ -30,4 +27,7 @@ def shakespeare(filename):
 					words.append(SOS)
 				else:
 					words.append(word)
+		else:
+			if not words[-1] == SOS:
+				words.append(SOS)
 	return words
