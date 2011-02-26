@@ -6,6 +6,7 @@ import re
 SOS = '#'
 EOS = '.'
 
+eos = ['.', '?', '!']
 valid_line_regex = re.compile('[a-z]')
 whitespace = re.compile('\s+')
 
@@ -21,7 +22,7 @@ def shakespeare(filename):
 			for word in line_words:
 				if word == '':
 					pass
-				elif word[-1] == EOS :
+				elif word[-1] in eos :
 					word = word[0:-1]
 					words.append(word)
 					words.append(SOS)
