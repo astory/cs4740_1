@@ -1,2 +1,5 @@
 *grams.txt
 *.pyc
+*.pdf
+*.aux
+*.log
