@@ -31,24 +31,50 @@ def ngram(n, words):
 	
 	return ngrams
 
+def perplexity(ngrams, probs, words):
+	n = len(ngrams) - 1
+	if use_fractions:
+		prob = Fraction(1,1)
+	else:
+		prob = 0
+	word_list = []
+	for w in words:
+		word_list.append(w)
+		if len(word_list) > n:
+			word_list.pop(0)
+		if use_fractions:
+			# TODO(astory): unk
+			prob *= probs[len(word_list)][tuple(word_list)]
+		else:
+			# word list is already log in this case
+			prob += probs[len(word_list)][tuple(word_list)]
+	if use_fractions:
+		return prob
+	else:
+		return exp(prob)
+		
+
 def probabilities(ngrams):
 	totals = [dict_sum(x) for x in ngrams]
-	probabilities = {}
-	ngram = ngrams[-1]
-	prevgram = ngrams[-2]
-	for k in ngram.keys():
-		num = ngram[k]
-		if len (ngrams) > 2:
-			denom = prevgrams[k[0:-1]]
-		else:
-			denom = totals[1]
-		import code
-		code.interact(local=locals())
-		print "num: %s, denom: %s" % (num, denom)
-		if use_fractions:
-			probabilities[k] = Fraction(num, denom)
-		else:
-			probabilities[k] = log(num) - log(denom)
+	probabilities = []
+
+	prevgram = None
+	for ngram in ngrams:
+		d = {}
+		for k in ngram.keys():
+			prefix = k[0:-1]
+			numer = ngram[k]
+			if prefix in prevgram:
+				# more than unigram
+				denom = prevgram[prefix]
+			else:
+				denom = totals[1]
+			if use_fractions:
+				d[k] = Fraction(numer, denom)
+			else:
+				d[k] = log(numer) - log(denom)
+		probabilities.append(d)
+		prevgram = ngram
 	return probabilities
 
 #Small things that we need to add at some point
