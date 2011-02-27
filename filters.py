@@ -9,7 +9,9 @@ EOS = '.'
 UNK = '<UNK>'
 
 eos = ['.', '?', '!']
-valid_line_regex = re.compile('[a-z]')
+valid_line_regex_shakespeare = re.compile('[a-z]')
+valid_line_regex_war_and_peace = re.compile('[a-z"]')
+valid_line_regex =valid_line_regex_war_and_peace
 whitespace = re.compile('\s+')
 
 def unk(words):
