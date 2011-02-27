@@ -7,6 +7,8 @@ import filters
 
 use_fractions = True
 
+CMAX=5
+
 def dict_sum(d):
 	s = 0
 	for k in d.keys():
@@ -30,24 +32,39 @@ def ngram(n, words):
 				d[t] = 1
 			word_buffer.pop(0)
 		ngrams.append(d)
-	
 	return ngrams
 
-def n_c(n,c,ngrams):
-	sorted(ngrams[n].values())
-	#For a particular value c of the above line
-	#count the number of different ngrams with that value c
-	#This can be done more fancy-like and all-at-once by checking for unique values (http://www.google.com/search?client=ubuntu&channel=fs&q=unique+python&ie=utf-8&oe=utf-8)
-
-def good_turing(ngrams):
-	for n in range(1,len(ngrams)-1):
+def get_n_c(ngrams):
+	n_c = [{}]
+	for n in range(1,len(ngrams)):
 		counts=(ngrams[n].values())
 		#counts is the number of times each n-gram occurs
-		#For each unique count c (http://www.google.com/search?client=ubuntu&channel=fs&q=unique+python&ie=utf-8&oe=utf-8),
-		#c_ = (c+1)*n_c(n,c+1)/n_c(n,c)
-		#Do what I mean by this ngrams[n].values()=counts
-	return ngrams
+		d = {}
+		for count in counts:
+			if d.has_key(count):
+				d[count] += 1
+			else:
+				d[count] = 1
+		n_c.append(d)
+	return n_c
 
+def good_turing(ngrams):
+	#Get the number of n-grams with a particular count c
+	#Smooth the counts
+	#c_ = (c+1)*n_c(n,c+1)/n_c(n,c)
+	#Put this in a dictionary in the format of ngrams
+	for n in range(1,len(ngrams)):
+		n_c=get_n_c(ngrams)[n]
+		for gram in ngrams[n].keys():
+			c=ngrams[n][gram]
+			if c > CMAX:
+				c_ = c
+			elif n_c.has_key(c+1):
+				c_ = (c+1.0)*n_c[c+1]/n_c[c]
+			else:
+				c_ = c
+			ngrams[n][gram]=c_
+	return ngrams
 
 def perplexity(probs, words):
 	n = len(probs) - 1
