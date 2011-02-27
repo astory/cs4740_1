@@ -1,7 +1,9 @@
 #!/usr/bin/env python
-from random import normalvariate #Just for generating numbers for testing functions
-from math import log,e
 from fractions import Fraction
+from math import log,e
+import random
+from random import normalvariate #Just for generating numbers for testing functions
+import filters
 
 use_fractions = True
 
@@ -31,8 +33,8 @@ def ngram(n, words):
 	
 	return ngrams
 
-def perplexity(ngrams, probs, words):
-	n = len(ngrams) - 1
+def perplexity(probs, words):
+	n = len(probs) - 1
 	if use_fractions:
 		prob = Fraction(1,1)
 	else:
@@ -52,7 +54,6 @@ def perplexity(ngrams, probs, words):
 		return prob
 	else:
 		return exp(prob)
-		
 
 def probabilities(ngrams):
 	totals = [dict_sum(x) for x in ngrams]
@@ -76,6 +77,38 @@ def probabilities(ngrams):
 		probabilities.append(d)
 		prevgram = ngram
 	return probabilities
+
+def choose_prob(l):
+	n = random.uniform(0,1)
+	for item, weight in l:
+		if n < weight:
+			return item
+		n -= weight
+
+def make_sentence(probs):
+	n = len(probs) - 1
+	if n > 1:
+		word_list = [filters.SOS]
+	else:
+		word_list = []
+	word_buffer = list(word_list)
+	while(True):
+		# TODO(astory): unk
+		print "word_buffer: %s" % word_buffer
+		prob_list = [(x) for x in probs[len(word_buffer)+1].items()\
+				if x[0][0:-1] == tuple(word_buffer)]
+		ngram = choose_prob(prob_list)
+		import code
+		#code.interact(local = locals())
+		print "ngram: %s" % (", ".join(ngram))
+		w = ngram[-1]
+		word_list.append(w)
+		word_buffer.append(w)
+		if len(word_buffer) == n:
+			word_buffer.pop(0)
+		if w == filters.SOS:
+			break
+	return word_list
 
 #Small things that we need to add at some point
 def smooth_addone(ngrams):
