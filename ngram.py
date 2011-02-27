@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import copy
 import gmpy
+import mpmath as mp
 from fractions import Fraction
 from math import log,e
 import math
@@ -94,11 +95,19 @@ def perplexity(probs, words):
 				else:
 					prob += probs[len(temp_words)][tuple(temp_words)]
 				break
-			# TODO(astory): unk
 			else:
-				temp_words.pop(0)
+				unk_gram = list(temp_words[:-1])
+				unk_gram.append(filters.UNK)
+				if tuple(unk_gram) in probs[len(unk_gram)]:
+					if use_fractions:
+						prob *= probs[len(unk_gram)][tuple(unk_gram)]
+					else:
+						prob += probs[len(unk_gram)][tuple(unk_gram)]
+					break
+				else:
+					temp_words.pop(0)
 	if use_fractions:
-		return math.exp(-log(prob)/len(words))
+		return mp.power((mp.mpf(prob.denom())/mp.mpf(prob.numer())), 1.0/len(words))
 	else:
 		return math.exp(-prob/len(words))
 
@@ -142,11 +151,9 @@ def make_sentence(probs):
 	word_buffer = list(word_list)
 	while(True):
 		# TODO(astory): unk
-		print "word_buffer: %s" % word_buffer
 		prob_list = [(x) for x in probs[len(word_buffer)+1].items()\
 				if x[0][0:-1] == tuple(word_buffer)]
 		ngram = choose_prob(prob_list)
-		print "ngram: %s" % (", ".join(ngram))
 		w = ngram[-1]
 		word_list.append(w)
 		word_buffer.append(w)
