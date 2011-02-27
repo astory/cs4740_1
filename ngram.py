@@ -1,7 +1,9 @@
 #!/usr/bin/env python
-from random import normalvariate #Just for generating numbers for testing functions
-from math import log,e
 from fractions import Fraction
+from math import log,e
+import random
+from random import normalvariate #Just for generating numbers for testing functions
+import filters
 
 use_fractions = True
 
@@ -46,26 +48,84 @@ def good_turing(ngrams):
 		#Do what I mean by this ngrams[n].values()=counts
 	return ngrams
 
+
+def perplexity(probs, words):
+	n = len(probs) - 1
+	if use_fractions:
+		prob = Fraction(1,1)
+	else:
+		prob = 0
+	word_list = []
+	for w in words:
+		word_list.append(w)
+		if len(word_list) > n:
+			word_list.pop(0)
+		if use_fractions:
+			# TODO(astory): unk
+			prob *= probs[len(word_list)][tuple(word_list)]
+		else:
+			# word list is already log in this case
+			prob += probs[len(word_list)][tuple(word_list)]
+	if use_fractions:
+		return prob
+	else:
+		return exp(prob)
+
 def probabilities(ngrams):
 	totals = [dict_sum(x) for x in ngrams]
-	probabilities = {}
-	ngram = ngrams[-1]
-	prevgram = ngrams[-2]
-	for k in ngram.keys():
-		num = ngram[k]
-		if len (ngrams) > 2:
-			denom = prevgrams[k[0:-1]]
-		else:
-			denom = totals[1]
-		import code
-		code.interact(local=locals())
-		print "num: %s, denom: %s" % (num, denom)
-		if use_fractions:
-			probabilities[k] = Fraction(num, denom)
-		else:
-			probabilities[k] = log(num) - log(denom)
+	probabilities = []
+
+	prevgram = None
+	for ngram in ngrams:
+		d = {}
+		for k in ngram.keys():
+			prefix = k[0:-1]
+			numer = ngram[k]
+			if prefix in prevgram:
+				# more than unigram
+				denom = prevgram[prefix]
+			else:
+				denom = totals[1]
+			if use_fractions:
+				d[k] = Fraction(numer, denom)
+			else:
+				d[k] = log(numer) - log(denom)
+		probabilities.append(d)
+		prevgram = ngram
 	return probabilities
 	
+
+def choose_prob(l):
+	n = random.uniform(0,1)
+	for item, weight in l:
+		if n < weight:
+			return item
+		n -= weight
+
+def make_sentence(probs):
+	n = len(probs) - 1
+	if n > 1:
+		word_list = [filters.SOS]
+	else:
+		word_list = []
+	word_buffer = list(word_list)
+	while(True):
+		# TODO(astory): unk
+		print "word_buffer: %s" % word_buffer
+		prob_list = [(x) for x in probs[len(word_buffer)+1].items()\
+				if x[0][0:-1] == tuple(word_buffer)]
+		ngram = choose_prob(prob_list)
+		import code
+		#code.interact(local = locals())
+		print "ngram: %s" % (", ".join(ngram))
+		w = ngram[-1]
+		word_list.append(w)
+		word_buffer.append(w)
+		if len(word_buffer) == n:
+			word_buffer.pop(0)
+		if w == filters.SOS:
+			break
+	return word_list
 
 #Small things that we need to add at some point
 def p_log(W):
@@ -79,4 +139,4 @@ def perplexity_log(W):
 	return PP
 
 
-#ngram.good_turing(ngram.ngram(3,filters.unk(filters.shakespeare('Shakespeare/short.txt'))))
+#ngram.make_sentence(ngram.probabilities(ngram.good_turing(ngram.ngram(3,filters.unk(filters.shakespeare('Shakespeare/short.txt'))))))
