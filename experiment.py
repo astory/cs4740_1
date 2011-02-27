@@ -6,21 +6,28 @@ import random
 
 ngram.good_turing =lambda x:x
 
-def trial(train,n,p='ap'):
+def trial(train,n,probs,p='ap'):
 	"""n is n-gram size. p is whether it's log, arbitrary precision or float"""
 	#Start timer
-	probs=ngram.probabilities(ngram.good_turing(ngram.ngram(n,filters.unk(filters.shakespeare(train)))))
-	sentence=ngram.make_sentence(probs)
-	pp=ngram.perplexity(probs,sentence)
+	#import code
+	#code.interact(local=locals())
+	sentence=ngram.make_sentence(probs[0:(n+1)])
+	pp=ngram.perplexity(probs[0:(n+1)],sentence)
 	#End timer
 	time=42
 	return [n,p,pp,time,sentence]
 
-def sentence_generation(train,filename,nmax,reps):
+def sentence_generation(train,filename,nmax,reps,probs):
 	out=csv.writer(open(filename, 'wb'), delimiter='|', quotechar='&', quoting=csv.QUOTE_NONE)
 	for i in range(0,nmax*reps):
 		n=random.randint(1,nmax)
-		out.writerow(trial(train,n))
+		out.writerow(trial(train,n,probs))
 
 def main():
-	sentence_generation('Shakespeare/Train.txt','hi.csv',3,30)
+	nmax=3
+	reps=3
+	train='Shakespeare/short.txt'
+	out='results.csv'
+	#TODO(tom) This isn't working. I'll fix it later.
+	probs=ngram.probabilities(ngram.good_turing(ngram.ngram(nmax,filters.unk(filters.shakespeare(train)))))
+	sentence_generation(train,out,nmax,reps,probs)
