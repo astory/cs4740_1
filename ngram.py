@@ -35,6 +35,22 @@ def ngram(n, words):
 	
 	return ngrams
 
+def n_c(n,c,ngrams):
+	sorted(ngrams[n].values())
+	#For a particular value c of the above line
+	#count the number of different ngrams with that value c
+	#This can be done more fancy-like and all-at-once by checking for unique values (http://www.google.com/search?client=ubuntu&channel=fs&q=unique+python&ie=utf-8&oe=utf-8)
+
+def good_turing(ngrams):
+	for n in range(1,len(ngrams)-1):
+		counts=(ngrams[n].values())
+		#counts is the number of times each n-gram occurs
+		#For each unique count c (http://www.google.com/search?client=ubuntu&channel=fs&q=unique+python&ie=utf-8&oe=utf-8),
+		#c_ = (c+1)*n_c(n,c+1)/n_c(n,c)
+		#Do what I mean by this ngrams[n].values()=counts
+	return ngrams
+
+
 def perplexity(probs, words):
 	n = len(probs) - 1
 	if use_fractions:
@@ -84,6 +100,7 @@ def probabilities(ngrams):
 		probabilities.append(d)
 		prevgram = ngram
 	return probabilities
+	
 
 def choose_prob(l):
 	n = random.uniform(0,1)
@@ -116,13 +133,6 @@ def make_sentence(probs):
 	return word_list
 
 #Small things that we need to add at some point
-def smooth_addone(ngrams):
-	return ngrams
-
-def C(ngram):
-	#Return the count of a particular n-gram somehow
-	return normalvariate(0.25,0.05)
-
 def p_log(W):
 	return 0.00023
 
@@ -132,3 +142,6 @@ def perplexity_log(W):
 	N=len(W)
 	PP=(-1/N)*p_log(W)
 	return PP
+
+
+#ngram.make_sentence(ngram.probabilities(ngram.good_turing(ngram.ngram(3,filters.unk(filters.shakespeare('Shakespeare/short.txt'))))))
