@@ -26,7 +26,8 @@ def sentence_generation(train,filename,nmax,reps,probs):
 def main():
 	nmax=3
 	reps=3
-	train='Shakespeare/short.txt'
+	#train='Shakespeare/short.txt'
+	train='War and Peace/short.txt'
 	out='results.csv'
 	#TODO(tom) This isn't working. I'll fix it later.
 	probs=ngram.probabilities(ngram.good_turing(ngram.ngram(nmax,filters.unk(filters.shakespeare(train)))))
