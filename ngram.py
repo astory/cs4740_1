@@ -1,12 +1,11 @@
 #!/usr/bin/env python
-import gmpy
-import mpmath as mp
 from fractions import Fraction
 from math import log,e
-import math
-import random
-from random import normalvariate #Just for generating numbers for testing functions
 import filters
+import gmpy
+import math
+import mpmath as mp
+import random
 
 use_fractions = True
 
@@ -126,7 +125,6 @@ def make_sentence(probs):
 		word_list = []
 	word_buffer = list(word_list)
 	while(True):
-		# TODO(astory): unk
 		prob_list = [(x) for x in probs[len(word_buffer)+1].items()\
 				if x[0][0:-1] == tuple(word_buffer)]
 		ngram = choose_prob(prob_list)
@@ -150,5 +148,13 @@ def perplexity_log(W):
 	PP=(-1/N)*p_log(W)
 	return PP
 
+def main():
+	words = filters.shakespeare('Shakespeare/Train.txt')
+	probs = ngram(3, words)
+	random.jumpahead(3474)
+	print make_sentence(probs)
+
+if __name__ == "__main__":
+	main()
 
 #ngram.make_sentence(ngram.probabilities(ngram.good_turing(ngram.ngram(3,filters.unk(filters.shakespeare('Shakespeare/short.txt'))))))
