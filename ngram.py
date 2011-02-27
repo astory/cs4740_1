@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import copy
 import gmpy
 from fractions import Fraction
 from math import log,e
@@ -9,7 +10,8 @@ import filters
 
 use_fractions = True
 
-CMAX=5
+#K for good-turing
+K=5
 
 def dict_sum(d):
 	s = 0
@@ -55,18 +57,23 @@ def good_turing(ngrams):
 	#Smooth the counts
 	#c_ = (c+1)*n_c(n,c+1)/n_c(n,c)
 	#Put this in a dictionary in the format of ngrams
-	for n in range(1,len(ngrams)):
-		n_c=get_n_c(ngrams)[n]
-		for gram in ngrams[n].keys():
-			c=ngrams[n][gram]
-			if c > CMAX:
+	ngrams_smoothed=copy.deepcopy(ngrams)
+	n_c=get_n_c(ngrams_smoothed)
+	for n in range(1,len(ngrams_smoothed)):
+		for gram in ngrams_smoothed[n].keys():
+			c=ngrams_smoothed[n][gram]
+			nc1=n_c[n][c+1]
+			n1 =n_c[n][1]
+			nc =n_c[n][c]
+			nk1=n_c[n][K+1]
+			if c > K:
 				c_ = c
 			elif n_c.has_key(c+1):
-				c_ = (c+1.0)*n_c[c+1]/n_c[c]
+				c_ = ((c+1.0)*nc1/nc-c*(K+1)*nk1/n1)/(1-(K+1)*nk1/n1) #Page 137
 			else:
 				c_ = c
-			ngrams[n][gram]=c_
-	return ngrams
+			ngrams_smoothed[n][gram]=c_
+	return ngrams_smoothed
 
 def perplexity(probs, words):
 	n = len(probs) - 1
