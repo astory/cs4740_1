@@ -32,7 +32,7 @@ def C(ngram):
 def p_log(W):
 	return 0.00023
 
-def perplexity_log(W)
+def perplexity_log(W):
 	#W = w_1 w_2 ... w_N
 	#PP (W) = P (w1 w2 .. wN) ^ -1/N
 	N=len(W)
