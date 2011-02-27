@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+import copy
+import gmpy
+import mpmath as mp
 from fractions import Fraction
 from math import log,e
 import filters
@@ -8,6 +11,9 @@ import mpmath as mp
 import random
 
 use_fractions = True
+
+#K for good-turing
+K=5
 
 def dict_sum(d):
 	s = 0
@@ -32,24 +38,47 @@ def ngram(n, words):
 				d[t] = 1
 			word_buffer.pop(0)
 		ngrams.append(d)
-	
 	return ngrams
 
-def n_c(n,c,ngrams):
-	sorted(ngrams[n].values())
-	#For a particular value c of the above line
-	#count the number of different ngrams with that value c
-	#This can be done more fancy-like and all-at-once by checking for unique values (http://www.google.com/search?client=ubuntu&channel=fs&q=unique+python&ie=utf-8&oe=utf-8)
-
-def good_turing(ngrams):
-	for n in range(1,len(ngrams)-1):
+def get_n_c(ngrams):
+	n_c = [{}]
+	for n in range(1,len(ngrams)):
 		counts=(ngrams[n].values())
 		#counts is the number of times each n-gram occurs
-		#For each unique count c (http://www.google.com/search?client=ubuntu&channel=fs&q=unique+python&ie=utf-8&oe=utf-8),
-		#c_ = (c+1)*n_c(n,c+1)/n_c(n,c)
-		#Do what I mean by this ngrams[n].values()=counts
-	return ngrams
+		d = {}
+		for count in counts:
+			if d.has_key(count):
+				d[count] += 1
+			else:
+				d[count] = 1
+		n_c.append(d)
+	return n_c
 
+def good_turing(ngrams):
+	#Get the number of n-grams with a particular count c
+	#Smooth the counts
+	#c_ = (c+1)*n_c(n,c+1)/n_c(n,c)
+	#Put this in a dictionary in the format of ngrams
+	ngrams_smoothed=[{}]
+	n_c=get_n_c(ngrams)
+	import code
+	code.interact(local = locals())
+	for n in range(1,len(ngrams)):
+		ngrams_smoothed.append({})
+		for gram in ngrams[n].keys():
+			c=ngrams[n][gram]
+			if c > K:
+				c_ = c
+			elif n_c[n].has_key(c+1):
+				nc1=n_c[n][c+1]
+				n1 =n_c[n][1]
+				nc =n_c[n][c]
+				nk1=n_c[n][K+1]
+				c_ = ((c+1.0)*nc1/nc-c*(K+1)*nk1/n1)/(1-(K+1)*nk1/n1) #Page 137
+			else:
+				c_ = c
+			ngrams_smoothed[n][gram]=c_
+	return ngrams_smoothed
 
 def perplexity(probs, words):
 	n = len(probs) - 1
@@ -111,7 +140,10 @@ def probabilities(ngrams):
 	
 
 def choose_prob(l):
-	n = random.uniform(0,1)
+	total_prob = 0
+	for (t,v) in l:
+		total_prob += v
+	n = random.uniform(0,total_prob)
 	for item, weight in l:
 		if n < weight:
 			return item
