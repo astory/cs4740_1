@@ -1,6 +1,8 @@
 #!/usr/bin/env python
+import gmpy
 from fractions import Fraction
 from math import log,e
+import math
 import random
 from random import normalvariate #Just for generating numbers for testing functions
 import filters
@@ -77,16 +79,21 @@ def perplexity(probs, words):
 		word_list.append(w)
 		if len(word_list) > n:
 			word_list.pop(0)
-		if use_fractions:
+		temp_words = list(word_list)
+		while(True):
+			if tuple(temp_words) in probs[len(temp_words)]:
+				if use_fractions:
+					prob *= probs[len(temp_words)][tuple(temp_words)]
+				else:
+					prob += probs[len(temp_words)][tuple(temp_words)]
+				break
 			# TODO(astory): unk
-			prob *= probs[len(word_list)][tuple(word_list)]
-		else:
-			# word list is already log in this case
-			prob += probs[len(word_list)][tuple(word_list)]
+			else:
+				temp_words.pop(0)
 	if use_fractions:
-		return prob
+		return math.exp(-log(prob)/len(words))
 	else:
-		return exp(prob)
+		return math.exp(-prob/len(words))
 
 def probabilities(ngrams):
 	totals = [dict_sum(x) for x in ngrams]
@@ -104,7 +111,7 @@ def probabilities(ngrams):
 			else:
 				denom = totals[1]
 			if use_fractions:
-				d[k] = Fraction(numer, denom)
+				d[k] = gmpy.mpq(numer, denom)
 			else:
 				d[k] = log(numer) - log(denom)
 		probabilities.append(d)
@@ -132,8 +139,6 @@ def make_sentence(probs):
 		prob_list = [(x) for x in probs[len(word_buffer)+1].items()\
 				if x[0][0:-1] == tuple(word_buffer)]
 		ngram = choose_prob(prob_list)
-		import code
-		#code.interact(local = locals())
 		print "ngram: %s" % (", ".join(ngram))
 		w = ngram[-1]
 		word_list.append(w)

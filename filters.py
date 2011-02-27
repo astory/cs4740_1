@@ -6,6 +6,7 @@ import string
 
 SOS = '#'
 EOS = '.'
+UNK = '<UNK>'
 
 eos = ['.', '?', '!']
 valid_line_regex = re.compile('[a-z]')
@@ -18,7 +19,7 @@ def unk(words):
 	for i in range(0,len(words)-1):
 		if words[i] not in unks:
 			unks.append(words[i])
-			words[i]='<UNK>'
+			words[i]=UNK
 	return words
 
 def shakespeare(filename):
