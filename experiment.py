@@ -29,7 +29,7 @@ def sentence_generation(train,filename,nmax,reps,probs):
 				pass
 
 def run(train,nmax,out):
-	reps=30
+	reps=2
 	#train='Shakespeare/short.txt'
 	#TODO(tom) This isn't working. I'll fix it later.
 	probs=ngram.probabilities(ngram.good_turing(ngram.ngram(nmax,filters.unk(filters.shakespeare(train)))))
