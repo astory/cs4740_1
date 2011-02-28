@@ -7,11 +7,9 @@ import random
 ngram.good_turing =lambda x:x
 
 def trial(train,n,p,probs):
-	"""n is n-gram size. p is whether it's log, arbitrary precision or float"""
-	#Start timer
+	"""n is n-gram size. p is whether it's log or arbitrary precision"""
 	sentence=ngram.make_sentence(probs[0:(n+1)])
 	pp=ngram.perplexity(probs[0:(n+1)],sentence)
-	#End timer
 	time='NA'
 	return [n,p,pp,time,' '.join(sentence)]
 
