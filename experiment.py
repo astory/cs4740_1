@@ -13,7 +13,7 @@ def trial(train,n,p,probs):
 	pp=ngram.perplexity(probs[0:(n+1)],sentence)
 	#End timer
 	time='NA'
-	return [n,p,pp,time,sentence]
+	return [n,p,pp,time,' '.join(sentence)]
 
 def sentence_generation(train,filename,nmax,reps,probs):
 	out=csv.writer(open(filename, 'wb'), delimiter='|', quotechar='&', quoting=csv.QUOTE_NONE)
