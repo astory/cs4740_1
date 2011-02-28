@@ -47,7 +47,7 @@ def run(train,nmax,reps,out):
 def main():
 	nmax=3
 	reps=3
-	run('War and Peace/short.txt',nmax,reps,'War and Peace results.csv')
+	run('War and Peace/Train.txt',nmax,reps,'War and Peace results.csv')
 	run('Shakespeare/Train.txt',nmax,reps,'Shakespeare results.csv')
 
 if __name__ == '__main__':
