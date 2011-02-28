@@ -19,7 +19,7 @@ def sentence_generation(train,filename,nmax,reps,probs):
 	out=csv.writer(open(filename, 'wb'), delimiter='|', quotechar='&', quoting=csv.QUOTE_NONE)
 	out.writerow(['n','use fractions','perplexity','time','sentence'])
 	for i in range(0,reps):
-		for n in range(1,nmax):
+		for n in range(1,nmax+1):
 			try:
 				#ngram.use_fractions=random.randint(0,1)
 				ngram.use_fractions=True
