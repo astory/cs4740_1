@@ -1,6 +1,11 @@
-get_results=function(file) {read.csv(file,sep='|',colClasses=c('integer','logical','numeric','numeric','character'))}
+get_results=function(file) {
+	read.csv(
+		file,sep='|',header=T,quote='&',
+		colClasses=c('integer','logical','numeric','numeric','character')
+		)
+}
 
-#results.shakespeare=get_results('../Shakespeare results.csv')
+results.shakespeare=get_results('../Shakespeare results.csv')
 results.tolstoy=get_results('../War and Peace results.csv')
 
 #foo=results.tolstoy
