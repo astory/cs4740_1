@@ -12,7 +12,7 @@ source('analysis.R')
 \maketitle
 \section*{Implementation}
 
-	Our design is built around dictionaries for each n-gram we consider.  We
+	Our design is built around dictionaries for each $n$-gram we consider.  We
 	break the input text into words and add sentence separators (although we do
 	not break the sentences apart, so trigrams or higher can cross sentence
 	boundaries), and then process the list of words, tallying the number of each
@@ -65,7 +65,7 @@ source('analysis.R')
 
 	Each subsection contains two examples from the Shakespeare corpus and two
 	from War and Peace.  These corpora were chosen because they were determined
-	at rough glance to be the easiest to parse and had the fewest problematic.
+	at rough glance to be the easiest to parse. %and had the fewest problematic.
 
 	\subsection*{Unsmoothed}
 
@@ -242,14 +242,6 @@ source('analysis.R')
 par(mfrow=c(2,1))
 pp_gen.plot(results.shakespeare,'Shakespeare')
 pp_gen.plot(results.tolstoy,'War and Peace')
-@
-\end{center}
-\end{figure}
-
-\begin{figure}
-\begin{center}
-<<echo=F,fig=T>>=
-#pp_gen.plot(results.shakespeare,'Shakespeare')
 @
 \end{center}
 \end{figure}
