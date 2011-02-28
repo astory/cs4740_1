@@ -4,8 +4,11 @@
 \author{Alec Story and Thomas Levine\\\small{avs\osn{38} and tkl\osn{22}}}
 
 
-\usepackage{Sweave}
 \begin{document}
+<<echo=F>>=
+source('analysis.R')
+pp_gen.plot(results.tolstoy)
+@
 
 \maketitle
 \section*{Sentence Generation}
