@@ -3,7 +3,7 @@ import copy
 import gmpy
 import mpmath as mp
 from fractions import Fraction
-from math import log,e
+from math import log,e,exp
 import filters
 import gmpy
 import math
@@ -61,8 +61,6 @@ def good_turing(ngrams):
 	#Put this in a dictionary in the format of ngrams
 	ngrams_smoothed=[{}]
 	n_c=get_n_c(ngrams)
-	import code
-	code.interact(local = locals())
 	for n in range(1,len(ngrams)):
 		ngrams_smoothed.append({})
 		for gram in ngrams[n].keys():
@@ -110,6 +108,7 @@ def perplexity(probs, words):
 					break
 				else:
 					temp_words.pop(0)
+	print use_fractions
 	if use_fractions:
 		return mp.power((mp.mpf(prob.denom())/mp.mpf(prob.numer())), 1.0/len(words))
 	else:
@@ -140,17 +139,17 @@ def probabilities(ngrams):
 	
 
 def choose_prob(l):
-	if not use_fractions:
+	if l[0][1]<=0:
 		l = [(t, exp(p)) for (t,p) in l]
 	total_prob = 0
 	for (t,v) in l:
 		total_prob += v
 	n = random.uniform(0,total_prob)
 	for item, weight in l:
-		if n < weight:
+		if n <= weight:
 			return item
 		n -= weight
-
+	
 def make_sentence(probs):
 	n = len(probs) - 1
 	if n > 1:
@@ -162,6 +161,8 @@ def make_sentence(probs):
 		prob_list = [(x) for x in probs[len(word_buffer)+1].items()\
 				if x[0][0:-1] == tuple(word_buffer)]
 		ngram = choose_prob(prob_list)
+		if ngram==None:
+			print 'n-gram is none'
 		w = ngram[-1]
 		word_list.append(w)
 		word_buffer.append(w)
