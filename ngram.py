@@ -147,6 +147,8 @@ def probabilities(ngrams):
 	
 
 def choose_prob(l):
+	if l = []
+		return filters.UNK
 	if l[0][1]<=0:
 		l = [(t, exp(p)) for (t,p) in l]
 	total_prob = 0
