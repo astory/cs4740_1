@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2010.12.8)  27 FEB 2011 13:02
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2010.12.8)  27 FEB 2011 20:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -53,25 +53,33 @@ LaTeX Font Info:    Font shape `OML/cmr/m/it' in size <9> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 7.
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./paper.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 136.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 136.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 141.
+ [3] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 249 strings out of 495046
- 2712 string characters out of 1181937
- 49023 words of memory out of 3000000
- 3499 multiletter control sequences out of 15000+50000
- 8552 words of font info for 30 fonts, out of 3000000 for 9000
+ 254 strings out of 495046
+ 2791 string characters out of 1181937
+ 50023 words of memory out of 3000000
+ 3504 multiletter control sequences out of 15000+50000
+ 9167 words of font info for 32 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  23i,7n,17p,168b,305s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/s
-hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-
-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fon
-ts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/type1/pub
-lic/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
-/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr17.pf
-b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb>
-Output written on paper.pdf (2 pages, 84227 bytes).
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
+bx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></
+usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/t
+exmf-texlive/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-texliv
+e/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/type
+1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/ams
+fonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr
+17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+Output written on paper.pdf (3 pages, 105652 bytes).
 PDF statistics:
- 37 PDF objects out of 1000 (max. 8388607)
+ 48 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

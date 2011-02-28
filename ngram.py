@@ -2,12 +2,10 @@
 import copy
 import gmpy
 import mpmath as mp
-from fractions import Fraction
 from math import log,e
 import filters
 import gmpy
 import math
-import mpmath as mp
 import random
 
 use_fractions = True
@@ -81,7 +79,7 @@ def good_turing(ngrams):
 def perplexity(probs, words):
 	n = len(probs) - 1
 	if use_fractions:
-		prob = Fraction(1,1)
+		prob = gmpy.mpq(1,1)
 	else:
 		prob = 0
 	word_list = []
@@ -169,17 +167,6 @@ def make_sentence(probs):
 		if w == filters.SOS:
 			break
 	return word_list
-
-#Small things that we need to add at some point
-def p_log(W):
-	return 0.00023
-
-def perplexity_log(W):
-	#W = w_1 w_2 ... w_N
-	#PP (W) = P (w1 w2 .. wN) ^ -1/N
-	N=len(W)
-	PP=(-1/N)*p_log(W)
-	return PP
 
 def main():
 	words = filters.shakespeare('Shakespeare/Train.txt')
