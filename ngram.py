@@ -225,7 +225,8 @@ def main():
 
 	if args.perplexity is not None:
 		print "this might take a while..."
-		perplex_data = filters.unk(filters.shakespeare(args.perplexity))
+		#perplex_data = filters.unk(filters.shakespeare(args.perplexity))
+		perplex_data = (filters.shakespeare(args.perplexity))
 		print "Perplexity: %s" % perplexity(unked_probs, perplex_data)
 
 	if args.make_sentence:
