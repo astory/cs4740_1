@@ -21,11 +21,10 @@ def sentence_generation(train,filename,nmax,reps,probs):
 	for i in range(0,reps):
 		for n in range(1,nmax+1):
 			try:
-				#ngram.use_fractions=random.randint(0,1)
-				ngram.use_fractions=True
-				out.writerow(trial(train,n,ngram.use_fractions,probs))
-				ngram.use_fractions=False
-				out.writerow(trial(train,n,ngram.use_fractions,probs))
+				ngram.set_fractions(True)
+				out.writerow(trial(train,n,True,probs))
+				ngram.set_fractions(False)
+				out.writerow(trial(train,n,False,probs))
 			except(AttributeError):
 				pass
 
@@ -37,6 +36,10 @@ def run(train,nmax,out):
 	sentence_generation(train,out,nmax,reps,probs)
 
 def main():
+	ngram.set_fractions(True)
 	nmax=5
 	run('War and Peace/Train.txt',nmax,'War and Peace results.csv')
 	run('Shakespeare/Train.txt',nmax,'Shakespeare results.csv')
+
+if __name__ == '__main__':
+	main()

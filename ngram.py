@@ -12,6 +12,10 @@ import random
 #K for good-turing
 K=5
 
+def set_fractions(fractions):
+	global use_fractions
+	use_fractions = fractions
+
 def dict_sum(d):
 	s = 0
 	for k in d.keys():
