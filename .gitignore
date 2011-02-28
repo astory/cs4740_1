@@ -4,3 +4,6 @@
 *.aux
 *.log
 paper/paper.tex
+paper/paper.pdf
+paper/paper.log
+

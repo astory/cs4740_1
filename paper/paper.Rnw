@@ -190,8 +190,10 @@ source('analysis.R')
 
 \begin{figure}
 \begin{center}
-<<echo=F,fig=T>>=
-pp_gen.plot(results.tolstoy)
+<<echo=F,fig=T,height=9>>=
+par(mfrow=c(2,1))
+pp_gen.plot(results.shakespeare,'Shakespeare')
+pp_gen.plot(results.tolstoy,'War and Peace')
 @
 \end{center}
 \end{figure}
@@ -199,7 +201,7 @@ pp_gen.plot(results.tolstoy)
 \begin{figure}
 \begin{center}
 <<echo=F,fig=T>>=
-pp_gen.plot(results.shakespeare)
+#pp_gen.plot(results.shakespeare,'Shakespeare')
 @
 \end{center}
 \end{figure}
