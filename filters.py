@@ -30,7 +30,6 @@ def strip_punct(word):
 	elif word[-1] in eos :
 		#end of sentence punctuation
 		l = strip_punct(word[0:-1])
-		l.append(word[0:-1])
 		l.append(word[-1])
 		l.append(SOS)
 	elif word[-1] in string.punctuation:
