@@ -6,10 +6,10 @@
 	#smoothing on or off
 	#different probability handling
 
-#TRAIN='Train.txt'
-#TEST='Test.txt'
-TRAIN='short1.txt'
-TEST='short2.txt'
+TRAIN='Train.txt'
+TEST='Test.txt'
+#TRAIN='short1.txt'
+#TEST='short2.txt'
 
 #Note: This fails on really really small corpora.
 #TRAIN='shorter.txt'
