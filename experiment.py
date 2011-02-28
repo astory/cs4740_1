@@ -8,6 +8,7 @@ ngram.good_turing =lambda x:x
 
 def trial(train,n,p,probs):
 	"""n is n-gram size. p is whether it's log or arbitrary precision"""
+	ngram.set_fractions(randint(0,1))
 	sentence=ngram.make_sentence(probs[0:(n+1)])
 	pp=ngram.perplexity(probs[0:(n+1)],sentence)
 	time='NA'
@@ -20,9 +21,9 @@ def sentence_generation(train,filename,nmax,reps,probs):
 	for i in range(0,reps):
 		for n in range(1,nmax+1):
 			try:
-				ngram.set_fractions(True)
-				out.writerow(trial(train,n,True,probs))
-				ngram.set_fractions(False)
+				#ngram.set_fractions(True)
+				#out.writerow(trial(train,n,True,probs))
+				#ngram.set_fractions(False)
 				out.writerow(trial(train,n,False,probs))
 				out_fh.flush()
 			except(AttributeError):

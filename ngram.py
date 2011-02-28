@@ -233,5 +233,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
-#ngram.make_sentence(ngram.probabilities(ngram.good_turing(ngram.ngram(3,filters.unk(filters.shakespeare('Shakespeare/short.txt'))))))
