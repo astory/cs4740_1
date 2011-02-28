@@ -1,6 +1,6 @@
 \documentclass{article}
 \newcommand{\osn}{\oldstylenums}
-\title{Arbitrary Precision and Arbitrary $n$-grams}
+\title{Arbitrary Precision and Arbitrary $n$-Grams}
 \author{Alec Story and Thomas Levine\\\small{avs\osn{38} and tkl\osn{22}}}
 
 <<echo=F>>=
