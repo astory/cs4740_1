@@ -61,8 +61,6 @@ def good_turing(ngrams):
 	#Put this in a dictionary in the format of ngrams
 	ngrams_smoothed=[{}]
 	n_c=get_n_c(ngrams)
-	import code
-	code.interact(local = locals())
 	for n in range(1,len(ngrams)):
 		ngrams_smoothed.append({})
 		for gram in ngrams[n].keys():
