@@ -115,10 +115,15 @@ def perplexity(probs, words):
 					break
 				else:
 					temp_words.pop(0)
+	print "prob= %s" % prob
+	print "len(words)= %s" % len(words)
 	if use_fractions:
+		print "Computing perplexity with arbitrary precision"
 		return mp.power((mp.mpf(prob.denom())/mp.mpf(prob.numer())), 1.0/len(words))
 	else:
+		print "Computing perplexity with logarithms"
 		return math.exp(-prob/len(words))
+	#This len(words) may be important for the weird issue we're having
 
 def probabilities(ngrams):
 	global use_fractions
