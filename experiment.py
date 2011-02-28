@@ -14,7 +14,8 @@ def trial(train,n,p,probs):
 	return [n,p,pp,time,' '.join(sentence)]
 
 def sentence_generation(train,filename,nmax,reps,probs):
-	out=csv.writer(open(filename, 'wb'), delimiter='|', quotechar='&', quoting=csv.QUOTE_NONE)
+	out_fh = open(filename, 'wb')
+	out=csv.writer(out_fh, delimiter='|', quotechar='&', quoting=csv.QUOTE_NONE)
 	out.writerow(['n','use fractions','perplexity','time','sentence'])
 	for i in range(0,reps):
 		for n in range(1,nmax+1):
@@ -23,6 +24,7 @@ def sentence_generation(train,filename,nmax,reps,probs):
 				out.writerow(trial(train,n,True,probs))
 				ngram.set_fractions(False)
 				out.writerow(trial(train,n,False,probs))
+				out_fh.flush()
 			except(AttributeError):
 				pass
 
@@ -30,7 +32,8 @@ def run(train,nmax,out):
 	reps=2
 	#train='Shakespeare/short.txt'
 	#TODO(tom) This isn't working. I'll fix it later.
-	probs=ngram.probabilities(ngram.good_turing(ngram.ngram(nmax,filters.unk(filters.shakespeare(train)))))
+	fh = open(train)
+	probs=ngram.probabilities(ngram.good_turing(ngram.ngram(nmax,filters.unk(filters.shakespeare(fh)))))
 	sentence_generation(train,out,nmax,reps,probs)
 
 def main():
