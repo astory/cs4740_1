@@ -1,3 +1,5 @@
+#Arbitrary Precision and Arbitrary n-Grams
+##By Alec Story and Thomas Levine
 `./ngram.py` to see the different command-line flags for ngram.py
 
 An example usage is:
