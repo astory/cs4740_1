@@ -165,6 +165,7 @@ def make_sentence(probs):
 		word_buffer.append(w)
 		if len(word_buffer) == n:
 			word_buffer.pop(0)
+		print " ".join(word_list)
 		if w == filters.SOS:
 			break
 	return word_list
