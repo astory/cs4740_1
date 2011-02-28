@@ -45,8 +45,8 @@ def run(train,nmax,reps,out):
 	sentence_generation(train,out,nmax,reps,probs_ap,probs_log)
 
 def main():
-	nmax=3
-	reps=3
+	nmax=5
+	reps=30
 	#run('War and Peace/short.txt',nmax,reps,'War and Peace results.csv')
 	#run('Shakespeare/short.txt',nmax,reps,'Shakespeare results.csv')
 	run('War and Peace/Train.txt',nmax,reps,'War and Peace results.csv')
