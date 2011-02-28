@@ -140,6 +140,8 @@ def probabilities(ngrams):
 	
 
 def choose_prob(l):
+	if not use_fractions:
+		l = [(t, exp(p)) for (t,p) in l]
 	total_prob = 0
 	for (t,v) in l:
 		total_prob += v
