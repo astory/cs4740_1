@@ -24,34 +24,37 @@ def unk(words):
 			words[i]=UNK
 	return words
 
-def shakespeare(filename):
-	"""Processes input assuming it is shakespeare-like"""
+def strip_punct(word):
+	if word == '' or None:
+		l = []
+	elif word[-1] in eos :
+		#end of sentence punctuation
+		l = strip_punct(word[0:-1])
+		l.append(word[0:-1])
+		l.append(word[-1])
+		l.append(SOS)
+	elif word[-1] in string.punctuation:
+		#end-of-word mid-sentence punctuation
+		l = strip_punct(word[0:-1])
+		l.append(word[-1])
+	elif word[0] in string.punctuation:
+		#beginning-of-word mid-sentence punctuation
+		l = [word[0]]
+		l.extend(strip_punct(word[1:]))
+	else:
+		l = [word]
+	return l
+
+def shakespeare(filehandle):
 	words = [SOS]
-	f = open(filename)
+	f = filehandle
 	for line in f:
 		# if the line is empty, or is just something like "SECOND LORD", the
 		# sentence is over, and we should add a new one.
 		if valid_line_regex.search(line):
 			line_words = whitespace.split(line)
 			for word in line_words:
-				if word == '':
-					pass
-				elif word[-1] in eos :
-					#end of sentence punctuation
-					words.append(word[0:-1]) #word
-					words.append(word[-1]) #eos punctuation
-					words.append(SOS) #sos marker
-				elif word[-1] in string.punctuation:
-					#end-of-word mid-sentence punctuation
-					words.append(word[0:-1]) #word
-					words.append(word[-1]) #punctuation
-				elif word[0] in string.punctuation:
-					#beginning-of-word mid-sentence punctuation
-					words.append(word[0]) #punctuation
-					words.append(word[1:]) #word
-				#This currently does not handle middle-of-word punctuation like someone else's program would.
-				else:
-					words.append(word)
+				words.extend(strip_punct(word))
 		else:
 			if not words[-1] == SOS:
 				words.append(SOS)

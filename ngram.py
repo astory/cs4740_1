@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import argparse as ap
 import copy
 import gmpy
 import mpmath as mp
@@ -7,8 +8,6 @@ import filters
 import gmpy
 import math
 import random
-
-use_fractions = True
 
 #K for good-turing
 K=5
@@ -77,13 +76,19 @@ def good_turing(ngrams):
 	return ngrams_smoothed
 
 def perplexity(probs, words):
+	global use_fractions
+	print "perplexity use_fractions: %s" % use_fractions
 	n = len(probs) - 1
 	if use_fractions:
 		prob = gmpy.mpq(1,1)
 	else:
 		prob = 0
 	word_list = []
+	i = 0
 	for w in words:
+		i += 1
+		if i % 10000 == 0:
+			print "processing word %d" % i
 		word_list.append(w)
 		if len(word_list) > n:
 			word_list.pop(0)
@@ -106,13 +111,14 @@ def perplexity(probs, words):
 					break
 				else:
 					temp_words.pop(0)
-	print use_fractions
 	if use_fractions:
 		return mp.power((mp.mpf(prob.denom())/mp.mpf(prob.numer())), 1.0/len(words))
 	else:
 		return math.exp(-prob/len(words))
 
 def probabilities(ngrams):
+	global use_fractions
+	print "probabilities use_fractions: %s" % use_fractions
 	totals = [dict_sum(x) for x in ngrams]
 	probabilities = []
 
@@ -172,10 +178,52 @@ def make_sentence(probs):
 	return word_list
 
 def main():
-	words = filters.shakespeare('Shakespeare/Train.txt')
-	probs = ngram(3, words)
-	random.jumpahead(3474)
-	print make_sentence(probs)
+	parser = ap.ArgumentParser(description='Play with some ngrams')
+	parser.add_argument('-n', '--n-gram', metavar='N', type=int,
+		dest='n', action='store', default=3,
+		help='n-gram to compute')
+	parser.add_argument('-t', '--train', metavar='FILE', type=file,
+		dest='training', action='store', default='Shakespeare/Train.txt',
+		help='Train ngrams from this file')
+	parser.add_argument('-p', '--perplexity', metavar='FILE', type=file,
+		dest='perplexity', action='store', default=None, help='measure'+
+		' perplexity against this file')
+	parser.add_argument('-l', '--logs', dest='use_logs', action='store_true',
+		help='compute using logs, default is arbitrary-precision')
+	parser.add_argument('-s', '--smooth', dest='smooth', action='store_true',
+		help='smooth using Good-Turing smoothing')
+	parser.add_argument('-m', '--make-sentence', dest='make_sentence',
+	action='store_true', help='produce a sentence')
+	args = parser.parse_args()
+	if not args.make_sentence and args.perplexity is None:
+		parser.print_help()
+		exit()
+	global use_fractions
+	use_fractions = not args.use_logs
+
+	print "main use_fractions: %s" % use_fractions
+
+	words = filters.shakespeare(args.training)
+
+	if args.perplexity is not None:
+		unked_words = filters.unk(words)
+		unked_ng = ngram(args.n, unked_words)
+		if args.smooth:
+			unked_ng = good_turing(unked_ng)
+		unked_probs = probabilities(unked_ng)
+	else:
+		ng = ngram(args.n, words)
+		if args.smooth:
+			ng = good_turing(ng)
+		probs = probabilities(ng)
+
+	if args.perplexity is not None:
+		print "this might take a while..."
+		perplex_data = filters.unk(filters.shakespeare(args.perplexity))
+		print "Perplexity: %s" % perplexity(unked_probs, perplex_data)
+
+	if args.make_sentence:
+		print " ".join(make_sentence(probs))
 
 if __name__ == "__main__":
 	main()
