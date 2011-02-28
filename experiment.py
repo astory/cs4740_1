@@ -13,25 +13,30 @@ def trial(train,n,p,probs):
 	pp=ngram.perplexity(probs[0:(n+1)],sentence)
 	#End timer
 	time='NA'
-	return [n,p,pp,time,sentence]
+	return [n,p,pp,time,' '.join(sentence)]
 
 def sentence_generation(train,filename,nmax,reps,probs):
 	out=csv.writer(open(filename, 'wb'), delimiter='|', quotechar='&', quoting=csv.QUOTE_NONE)
 	out.writerow(['n','use fractions','perplexity','time','sentence'])
-	for i in range(0,nmax*reps):
-		n=random.randint(1,nmax)
-		#ngram.use_fractions=random.randint(0,1)
-		ngram.use_fractions=True
-		out.writerow(trial(train,n,ngram.use_fractions,probs))
-		ngram.use_fractions=False
-		out.writerow(trial(train,n,ngram.use_fractions,probs))
+	for i in range(0,reps):
+		for n in range(1,nmax+1):
+			try:
+				#ngram.use_fractions=random.randint(0,1)
+				ngram.use_fractions=True
+				out.writerow(trial(train,n,ngram.use_fractions,probs))
+				ngram.use_fractions=False
+				out.writerow(trial(train,n,ngram.use_fractions,probs))
+			except(AttributeError):
+				pass
 
-def main():
-	nmax=3
-	reps=3
+def run(train,nmax,out):
+	reps=30
 	#train='Shakespeare/short.txt'
-	train='War and Peace/short.txt'
-	out='results.csv'
 	#TODO(tom) This isn't working. I'll fix it later.
 	probs=ngram.probabilities(ngram.good_turing(ngram.ngram(nmax,filters.unk(filters.shakespeare(train)))))
 	sentence_generation(train,out,nmax,reps,probs)
+
+def main():
+	nmax=5
+	run('War and Peace/Train.txt',nmax,'War and Peace results.csv')
+	run('Shakespeare/Train.txt',nmax,'Shakespeare results.csv')
