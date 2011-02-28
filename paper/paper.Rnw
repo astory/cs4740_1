@@ -63,6 +63,8 @@ source('analysis.R')
 	For sentence generation, we did not include our unknown processing, and do
 	not convert the first occurrence of each word to an unknown token.
 
+	%We trained our system on the \emph{Shakespeare} and \emph{War and Peace} corpora.
+	
 	Each subsection contains two examples from the Shakespeare corpus and two
 	from War and Peace.  These corpora were chosen because they were determined
 	at rough glance to be the easiest to parse. %and had the fewest problematic.
