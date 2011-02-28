@@ -3,12 +3,11 @@
 \title{Arbitrary Precision and Arbitrary $n$-grams}
 \author{Alec Story and Thomas Levine\\\small{avs\osn{38} and tkl\osn{22}}}
 
-
-\begin{document}
 <<echo=F>>=
 source('analysis.R')
-pp_gen.plot(results.tolstoy)
 @
+
+\begin{document}
 
 \maketitle
 \section*{Sentence Generation}
@@ -188,12 +187,21 @@ pp_gen.plot(results.tolstoy)
 	\subsection*{Pelplexity of test set}
 	
 	\subsection*{Perplexity of generated sentences}
-	\begin{figure}
-	\begin{center}
-	<<fig=T,echo=F>>=
-	pp_gen.plot(results.tolstoy)
-	@
-	\end{center}
-	\end{figure}
+
+\begin{figure}
+\begin{center}
+<<echo=F,fig=T>>=
+pp_gen.plot(results.tolstoy)
+@
+\end{center}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+<<echo=F,fig=T>>=
+pp_gen.plot(results.shakespeare)
+@
+\end{center}
+\end{figure}
 
 \end{document}
