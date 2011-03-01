@@ -273,14 +273,14 @@ We did this because sentence generation involves substantial
 probability computations, where the difference in probability
 computation type would be relevant.
 
-For each combination of the intependent variables, we
+For each combination of the independent variables, we
 generated 23 sentences from the \emph{War and Peace} corpus
 and tested their perplexity. We did the same the Shakespeare corpus
 but generated only 7 sentences for each treatment combination.
 
 \section*{Results}
 
-\subsection*{Pelplexity of test set}
+\subsection*{Perplexity of test set}
 For each corpus, perplexity of test set decreased when the models
 were run for longer $n$-grams, and the perplexity
 leveled off starting at $n=3$ (figure \ref{fig:test}). Probability computation type had no effect.
