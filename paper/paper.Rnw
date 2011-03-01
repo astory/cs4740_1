@@ -248,4 +248,17 @@ pp_gen.plot(results.tolstoy,'War and Peace')
 \end{center}
 \end{figure}
 
+
+\begin{figure}
+\begin{center}
+<<echo=F,fig=T,height=9>>=
+par(mfrow=c(2,1))
+pp_gen.plot(subset(results.shakespeare,n>1),'Shakespeare')
+pp_gen.plot(subset(results.tolstoy,n>1),'War and Peace')
+@
+\end{center}
+\caption{Perplexities for n-grams of length greater than $n$=1}
+\end{figure}
+
+
 \end{document}
