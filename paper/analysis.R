@@ -38,5 +38,29 @@ pp_gen.plot=function(foo,corpusname){
 	}
 }
 
+test.plot=function(){
+	par(mfrow=c(2,1))
+	test=read.csv('test_pp.csv')
+	plot(perplexity~n.gram_length,data=subset(test,corpus=='Shakespeare'),type='n',
+	xlab='n-gram length',ylab='Perplexity',main='Perplexity of the Shakespeare test corpus'
+	)
+	points(perplexity~n.gram_length,data=subset(test,prob=='ap'&smoothing=='on'&corpus=='Shakespeare'),type='l')
+	points(perplexity~n.gram_length,data=subset(test,prob=='ap'&smoothing=='off'&corpus=='Shakespeare'),type='l',col=2)
+	#points(perplexity~n.gram_length,data=subset(test,prob=='log'&smoothing=='off'&corpus=='Shakespeare'),type='l')
+	legend('topright',
+			c('Smoothing on','Smoothing off'),
+			lty=1,
+			col=c(1,2)
+		)
 
-read.csv('test_pp_log.csv')
+	plot(perplexity~n.gram_length,data=subset(test,corpus=='War_and_Peace'),type='n',
+	xlab='n-gram length',ylab='Perplexity',main='Perplexity of the War and Peace test corpus'
+	)
+	points(perplexity~n.gram_length,data=subset(test,prob=='ap'&smoothing=='on'&corpus=='War_and_Peace'),type='l')
+	points(perplexity~n.gram_length,data=subset(test,prob=='ap'&smoothing=='off'&corpus=='War_and_Peace'),type='l',col=2)
+	legend('topright',
+			c('Smoothing on','Smoothing off'),
+			lty=1,
+			col=c(1,2)
+		)
+}		

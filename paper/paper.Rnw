@@ -266,6 +266,18 @@ and tested their perplexity. %ADD SHAKESPEARE
 
 \subsection*{Pelplexity of test set}
 
+
+\begin{figure}
+\begin{center}
+<<echo=F,fig=T,height=9>>=
+test.plot()
+@
+\end{center}
+\caption{\label{fig:test}Perplexities of the test corpora by $n$-gram length and probability computation method for models trained on the respective training corpora.}
+\end{figure}
+
+
+
 	
 \subsection*{Perplexity of generated sentences}
 Perplexity of generated sentences decreased with increased
