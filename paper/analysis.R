@@ -5,7 +5,7 @@ get_results=function(file) {
 		)
 }
 
-mycols=c('#00000060','#FFFF0060')
+mycols=rev(c('#00000060','#FF000060'))
 
 results.shakespeare=get_results('../shakespeare.csv')
 results.tolstoy=get_results('war_and_peace.csv')
@@ -23,7 +23,7 @@ pp_gen.plot=function(foo,corpusname){
 	legend('topright',
 		c('Arbitrary precision arithmetic','Log probability'),
 		pch=21,
-		col=mycols[c(1,2)],
+		col=c(2,1),
 		title='Probability computation method'
 	)
 	axis(1,at=1:max(foo$n))
@@ -37,3 +37,6 @@ pp_gen.plot=function(foo,corpusname){
 		lines(x~n,data=subset(foo.ag,use.fractions==i),col=mycols[1+i])
 	}
 }
+
+
+read.csv('test_pp_log.csv')
