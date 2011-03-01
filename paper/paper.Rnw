@@ -49,8 +49,6 @@ source('analysis.R')
 	shorten the list of words until a match is found, which, at shortest, is a
 	single unknown by itself.
 
-	%\\
-
 	The dictionary approach was simple and intuitive, but fairly slow; the
 	generation of sentences spends the majority of its time on dictionary
 	operations, and uses only moderate amounts of memory.  Much of the time in

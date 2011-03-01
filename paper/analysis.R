@@ -7,7 +7,7 @@ get_results=function(file) {
 
 mycols=rev(c('#00000060','#FF000060'))
 
-results.shakespeare=get_results('../Shakespeare results.csv')
+results.shakespeare=get_results('../shakespeare.csv')
 results.tolstoy=get_results('war_and_peace.csv')
 
 #foo=results.tolstoy
