@@ -216,7 +216,9 @@ source('analysis.R')
 		only in the last digit in measuring the perplexity of whole corpora),
 		but that arbitrary-precision mathematics is much slower than floating
 		point mathematics with logs when finding the product of many numbers.
-		See \ref{runtimes}:
+		See \ref{runtimes}.  This suggests that the logarithmic computation is
+		indeed an accurate way to compute perplexity, particularly in light of
+		the more than \osn{10}-fold speed improvements it results in.
 
 		\begin{table}
 		\caption{Running times with arbitrary and floating-point precision in
