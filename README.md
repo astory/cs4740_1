@@ -9,3 +9,11 @@ An example usage is:
 which will make sentences from the Shakespeare corpus.  We support that corpus
 and the War and Peace corpus.  If you run it on other corpora, you will probably
 get weird results.
+
+It requires the following Python libraries
+* argparse
+* copy
+* gmpy
+* mpmath
+* math
+We developed it under Python 2.6.6.
