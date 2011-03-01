@@ -3,8 +3,8 @@
 \title{Arbitrary Precision and Arbitrary $n$-Grams}
 \author{Alec Story and Thomas Levine\\\small{avs\osn{38} and tkl\osn{22}}}
 
-\newcommand\ngram{$n$-gram}
-\newcommand\loga{logarithmic arithmetic}
+
+
 
 <<echo=F>>=
 source('analysis.R')
@@ -261,31 +261,6 @@ source('analysis.R')
 		\label{values}
 		\end{table}
 
-		Our hypothesis was that the arbitrary precision math would reveal a
-		small amount of error in computing the perplexity logarithmically.  Our
-		results seem to indicate that any such error is very small (differing
-		only in the last digit in measuring the perplexity of whole corpora),
-		but that arbitrary-precision mathematics is much slower than floating
-		point mathematics with logs when finding the product of many numbers.
-		See table \ref{runtimes}.  This suggests that the logarithmic
-		computation is indeed an accurate way to compute perplexity,
-		particularly in light of the more than \osn{10}-fold speed improvements
-		it results in.
-
-		\begin{table}[h]
-		\begin{tabular}{l | r r}
-			Operation & Arbitrary Precision & Logarithmic \\
-			\hline
-			Trigram tallying & 136.936949968 & 137.023640156\\
-			Probability computation & 63.5648961067 & 60.1038038731 \\
-			Perplexity computation & \textbf{990.322752953} & 65.2168021202 \\
-		\end{tabular}
-		\caption{Running times with arbitrary and floating-point precision in
-		seconds.  Average of \osn{10} trials, trained on the Shakespeare
-		training corpus, perplexity calculated for Shakespeare training corpus}
-		\label{runtimes}
-		\end{table}
-
 	\section*{Arbitrary $n$-grams}
 	
 		Because the computations were general enough, we were able to easily
@@ -306,11 +281,11 @@ source('analysis.R')
 
 \section*{Experimental design}
 We trained our model on the training data and then
-ran two experiments to study the effect of \ngram length and
+ran two experiments to study the effect of $n$-gram length and
 probability computation type on perplexity on the two corpora.
 The two probability computation types were arbitrary precision
-arithmetic and \loga.
-For each experiment, we tested \ngram length of $n$=$1$ to $5$.
+arithmetic and logarithmic arithmetic.
+For each experiment, we tested $n$-gram length of $n$=$1$ to $5$.
 
 We hypothesized that longer $n$-grams would yield lower perplexity
 and that the two probability computation types would yield similar perplexity.
@@ -350,8 +325,6 @@ test.plot()
 \caption{\label{fig:test}Perplexities of the test corpora by $n$-gram length and probability computation method for models trained on the respective training corpora.}
 \end{figure}
 
-
-
 	
 \subsection*{Perplexity of generated sentences}
 Perplexity of generated sentences decreased with when longer $n$-grams
@@ -369,6 +342,32 @@ pp_gen.plot(results.tolstoy,'War and Peace')
 \end{center}
 \caption{\label{fig:gen}Perplexities of generated sentences by $n$-gram length and probability computation method for the two corpora.}
 \end{figure}
+
+\subsection*{Arbitrary precision arithmetic}
+		Our hypothesis was that the arbitrary precision math would reveal a
+		small amount of error in computing the perplexity logarithmically.  Our
+		results seem to indicate that any such error is very small (differing
+		only in the last digit in measuring the perplexity of whole corpora),
+		but that arbitrary-precision mathematics is much slower than floating
+		point mathematics with logs when finding the product of many numbers.
+		See table \ref{runtimes}.  This suggests that the logarithmic
+		computation is indeed an accurate way to compute perplexity,
+		particularly in light of the more than \osn{10}-fold speed improvements
+		it results in.
+
+		\begin{table}[h]
+		\begin{tabular}{l | r r}
+			Operation & Arbitrary Precision & Logarithmic \\
+			\hline
+			Trigram tallying & 136.936949968 & 137.023640156\\
+			Probability computation & 63.5648961067 & 60.1038038731 \\
+			Perplexity computation & \textbf{990.322752953} & 65.2168021202 \\
+		\end{tabular}
+		\caption{Running times with arbitrary and floating-point precision in
+		seconds.  Average of \osn{10} trials, trained on the Shakespeare
+		training corpus, perplexity calculated for Shakespeare training corpus}
+		\label{runtimes}
+		\end{table}
 
 \section*{Conclusion}
 
