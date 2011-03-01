@@ -210,7 +210,7 @@ source('analysis.R')
 
 		\begin{table}[p]
 		\begin{tabular}{l r l l | l}
-			Corpus & n-gram length & smoothing & math & perplexity\\
+			Corpus & n & smoothing & math & perplexity\\
 			\hline
 			Shakespeare &  1 &  on &  log &  499.299251351\\
 			Shakespeare &  1 &  on &  ap &  499.299251353146\\
