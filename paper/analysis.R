@@ -6,7 +6,7 @@ get_results=function(file) {
 }
 
 results.shakespeare=get_results('../Shakespeare results.csv')
-results.tolstoy=get_results('../War and Peace results.csv')
+results.tolstoy=get_results('war_and_peace.csv')
 
 #foo=results.tolstoy
 #par(mfrow=c(1,2));for (i in c(0,1)){plot((perplexity)~n,data=subset(foo,use.fractions==i),main=paste('use fractions =',i))}
