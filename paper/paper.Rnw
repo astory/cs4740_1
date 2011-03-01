@@ -63,11 +63,9 @@ source('analysis.R')
 	For sentence generation, we did not include our unknown processing, and do
 	not convert the first occurrence of each word to an unknown token.
 
-	%We trained our system on the \emph{Shakespeare} and \emph{War and Peace} corpora.
-	
 	Each subsection contains two examples from the Shakespeare corpus and two
 	from War and Peace.  These corpora were chosen because they were determined
-	at rough glance to be the easiest to parse. %and had the fewest problematic.
+	at rough glance to be the easiest to parse.
 
 	\subsection*{Unsmoothed}
 
@@ -196,10 +194,8 @@ source('analysis.R')
 		One of the two extensions we chose was to implement the probability and
 		perplexity calculations using arbitrary precision arithmetic (we also
 		implemented it using logarithmic arithmetic).  This can lead to slower
-		processing, but in our profiling, most of the time was spent in
-		dictionary manipulation rather than mathematics.  This approach
-		guarantees that there is no data loss until we move into processing
-		floats during exponentiation.
+		processing, but	guarantees that there is no data loss until we move into
+		processing floats during exponentiation.
 
 		We used python's +gmpy+ package to represent the probabilities as
 		arbitrary rational numbers (python's integers are already
@@ -212,7 +208,26 @@ source('analysis.R')
 		mathematics was used.
 
 		Our hypothesis was that the arbitrary precision math would reveal a
-		small amount of error in computing the perplexity logarithmically.
+		small amount of error in computing the perplexity logarithmically.  Our
+		results seem to indicate that any such error is very small (differing
+		only in the last digit in measuring the perplexity of whole corpora),
+		but that arbitrary-precision mathematics is much slower than floating
+		point mathematics with logs when finding the product of many numbers.
+		See \ref{runtimes}:
+
+		\begin{table}
+		\caption{Running times with arbitrary and floating-point precision in
+		seconds.  Average of 10 trials, trained on the Shakespeare training
+		corpus, perplexity calculated for Shakespeare training corpus}
+		\label{runtimes}
+		\begin{tabular}{l | r r}
+			Operation & Arbitrary Precision & Logarithmic \\
+			\hline
+			Trigram tallying & 136.936949968 & 137.023640156\\
+			Probability computation & 63.5648961067 & 60.1038038731 \\
+			Perplexity computation & \textbf{990.322752953} & 65.2168021202 \\
+		\end{tabular}
+		\end{table}
 
 	\section*{Arbitrary $n$-grams}
 	
