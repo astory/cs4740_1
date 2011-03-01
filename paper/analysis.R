@@ -37,3 +37,6 @@ pp_gen.plot=function(foo,corpusname){
 		lines(x~n,data=subset(foo.ag,use.fractions==i),col=mycols[1+i])
 	}
 }
+
+
+read.csv('test_pp_log.csv')
