@@ -198,15 +198,68 @@ source('analysis.R')
 		processing, but	guarantees that there is no data loss until we move into
 		processing floats during exponentiation.
 
-		We used python's +gmpy+ package to represent the probabilities as
+		We used python's \verb+gmpy+ package to represent the probabilities as
 		arbitrary rational numbers (python's integers are already
-		arbitrary-precision), and +mpmath+ to perform the final exponentiation
-		to calculate the perplexity (the $n$-th root).  The libraries could only
-		compute non-integer powers of integers or floats, and integer powers
-		were rounded to the nearest integer, and therefore, inaccurate, so
-		(very high precision) floats provided the best results.  This final
-		stage of computation of perplexity was the only point where imprecise
-		mathematics was used.
+		arbitrary-precision), and \verb+mpmath+ to perform the final
+		exponentiation to calculate the perplexity (the $n$-th root).  The
+		libraries could only compute non-integer powers of integers or floats,
+		and integer powers were rounded to the nearest integer, and therefore,
+		inaccurate, so (very high precision) floats provided the best results.
+		This final stage of computation of perplexity was the only point where
+		imprecise mathematics was used. See table \ref{values}
+
+		\begin{table}[p]
+		\begin{tabular}{l r l l | l}
+			Corpus & n-gram length & smoothing & math & perplexity\\
+			\hline
+			Shakespeare &  1 &  on &  log &  499.299251351\\
+			Shakespeare &  1 &  on &  ap &  499.299251353146\\
+			Shakespeare &  1 &  off &  log &  487.213020203\\
+			Shakespeare &  1 &  off &  ap &  487.213020203167\\
+			War and peace &  1 &  on &  log &  439.45958473\\
+			War and peace &  1 &  on &  ap &  439.459584729599\\
+			War and peace &  1 &  off &  log &  431.095976221\\
+			War and peace &  1 &  off &  ap &  431.095976221135\\
+			Shakespeare &  2 &  on &  log &  61.1651128384\\
+			Shakespeare &  2 &  on &  ap &  61.1651128383365\\
+			Shakespeare &  2 &  off &  log &  53.723243187\\
+			Shakespeare &  2 &  off &  ap &  53.7232431870133\\
+			War and peace &  2 &  on &  log &  50.5728265194\\
+			War and peace &  2 &  on &  ap &  50.5728265193686\\
+			War and peace &  2 &  off &  log &  44.4939985115\\
+			War and peace &  2 &  off &  ap &  44.4939985115293\\
+			Shakespeare &  3 &  on &  log &  42.3740593974\\
+			Shakespeare &  3 &  on &  ap &  42.3740593973802\\
+			Shakespeare &  3 &  off &  log &  29.644105241\\
+			Shakespeare &  3 &  off &  ap &  29.644105240972\\
+			War and peace &  3 &  on &  log &  33.5298099459\\
+			War and peace &  3 &  on &  ap &  33.529809945862\\
+			War and peace &  3 &  off &  log &  23.6337013897\\
+			War and peace &  3 &  off &  ap &  23.6337013896575\\
+			Shakespeare &  4 &  on &  log &  41.6859932104\\
+			Shakespeare &  4 &  on &  ap &  41.6859932104407\\
+			Shakespeare &  4 &  off &  log &  25.5850207553\\
+			Shakespeare &  4 &  off &  ap &  25.5850207552466\\
+			War and peace &  4 &  on &  log &  33.0110361869\\
+			War and peace &  4 &  on &  ap &  33.0110361868792\\
+			War and peace &  4 &  off &  log &  20.5857956417\\
+			War and peace &  4 &  off &  ap &  20.5857956417055\\
+			Shakespeare &  5 &  on &  log &  42.4661223625 \\
+			Shakespeare &  5 &  on &  ap &  42.4661223624809\\
+			Shakespeare &  5 &  off &  log &  25.0344976529\\
+			Shakespeare &  5 &  off &  ap &  25.034497652926\\
+			War and peace &  5 &  on &  log &  33.6199337718\\
+			War and peace &  5 &  on &  ap &  33.6199337717408\\
+			War and peace &  5 &  off &  log &  20.0240585504\\
+			War and peace &  5 &  off &  ap &  20.0240585503833\\
+			Shakespeare &  6 &  on &  log &  42.7513356663 \\
+			Shakespeare &  6 &  on &  ap &  42.7513356662635\\
+			Shakespeare &  6 &  off &  log &  24.9268403396 \\
+			Shakespeare &  6 &  off &  ap &  24.9268403395792\\
+		\end{tabular}
+		\caption{Perplexity values for various n-gram parameters}
+		\label{values}
+		\end{table}
 
 		Our hypothesis was that the arbitrary precision math would reveal a
 		small amount of error in computing the perplexity logarithmically.  Our
@@ -298,5 +351,18 @@ pp_gen.plot(results.tolstoy,'War and Peace')
 \caption{\label{fig:gen}Perplexities of generated sentences by $n$-gram length and probability computation method for the two corpora.}
 \end{figure}
 
+\section*{Conclusion}
+
+	Arbitrary precision does not result in more accurate perplexity computations
+	over logarithmic computation, at least to floating point precision on the
+	output of the perplexity, and such precision is probably dwarfed by noise in
+	the inputs.  Such computations, however, take substantially longer to
+	compute, so arbitrary precision computations are probably not worth
+	performing.
+
+	As expected, lengthening n-grams to moderate values decreases perplexity of
+	the test corpus, but increasing the n-gram length beyond 3 did not yield
+	benefits, so it appears that trigrams are reasonable for use computing
+	perplexity.
 
 \end{document}
