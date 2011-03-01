@@ -214,15 +214,12 @@ source('analysis.R')
 		only in the last digit in measuring the perplexity of whole corpora),
 		but that arbitrary-precision mathematics is much slower than floating
 		point mathematics with logs when finding the product of many numbers.
-		See \ref{runtimes}.  This suggests that the logarithmic computation is
-		indeed an accurate way to compute perplexity, particularly in light of
-		the more than \osn{10}-fold speed improvements it results in.
+		See table \ref{runtimes}.  This suggests that the logarithmic
+		computation is indeed an accurate way to compute perplexity,
+		particularly in light of the more than \osn{10}-fold speed improvements
+		it results in.
 
-		\begin{table}
-		\caption{Running times with arbitrary and floating-point precision in
-		seconds.  Average of 10 trials, trained on the Shakespeare training
-		corpus, perplexity calculated for Shakespeare training corpus}
-		\label{runtimes}
+		\begin{table}[h]
 		\begin{tabular}{l | r r}
 			Operation & Arbitrary Precision & Logarithmic \\
 			\hline
@@ -230,6 +227,10 @@ source('analysis.R')
 			Probability computation & 63.5648961067 & 60.1038038731 \\
 			Perplexity computation & \textbf{990.322752953} & 65.2168021202 \\
 		\end{tabular}
+		\caption{Running times with arbitrary and floating-point precision in
+		seconds.  Average of \osn{10} trials, trained on the Shakespeare
+		training corpus, perplexity calculated for Shakespeare training corpus}
+		\label{runtimes}
 		\end{table}
 
 	\section*{Arbitrary $n$-grams}
